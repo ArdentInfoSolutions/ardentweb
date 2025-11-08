@@ -18,7 +18,7 @@ export default async function handler(req, res) {
 
     await resend.emails.send({
       from: 'Website Contact <Sales@ardentinfo.com>',
-      to: 'sales@ardentinfo.com',  // where you want to receive messages
+      to: 'onboarding@resend.dev',  // where you want to receive messages
       subject: `New message from ${name}`,
       html: `
         <h3>New Contact Form Submission</h3>
