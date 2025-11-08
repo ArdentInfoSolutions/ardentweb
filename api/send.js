@@ -17,14 +17,29 @@ export default async function handler(req, res) {
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     await resend.emails.send({
-      from: 'Website Contact <Sales@ardentinfo.com>',
-      to: 'onboarding@resend.dev',  // where you want to receive messages
+      from: 'Ardent Info <Sales@ardentinfo.com>',
+      to: 'sales@ardentinfo.com',  // where you want to receive messages
       subject: `New message from ${name}`,
       html: `
         <h3>New Contact Form Submission</h3>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Message:</strong><br>${message}</p>
+      `,
+    });
+
+    // 2️⃣ Send confirmation email to the sender
+    await resend.emails.send({
+      from: 'Ardent Info <sales@ardentinfo.com>',
+      to: email,
+      subject: 'Thank you for contacting Ardent Info!',
+      html: `
+        <p>Hi ${name},</p>
+        <p>Thanks for reaching out! We’ve received your message and will get back to you soon.</p>
+        <hr>
+        <p><strong>Your message:</strong></p>
+        <blockquote>${message}</blockquote>
+        <p>— The Ardent Info Team</p>
       `,
     });
 
