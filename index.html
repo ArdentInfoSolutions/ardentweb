@@ -778,7 +778,7 @@
           </div>
 
           <div class="col-lg-6">
-            <form action="forms/phpmailer.php" method="post" class="php-email-form">
+            <form id="contact-form"  class="php-email-form">
               <div class="row gy-4">
 
                 <div class="col-md-6">
@@ -807,6 +807,42 @@
 
               </div>
             </form>
+            <p id="form-status"></p>
+            <script>
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('form-status');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    status.textContent = "Sending...";
+
+    const formData = {
+      name: form.name.value,
+      email: form.email.value,
+      message: form.message.value,
+    };
+
+    try {
+      const res = await fetch('/api/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        status.textContent = "✅ Message sent successfully!";
+        form.reset();
+      } else {
+        status.textContent = "❌ Failed to send. Please try again.";
+      }
+    } catch (err) {
+      console.error(err);
+      status.textContent = "⚠️ Error sending message.";
+    }
+  });
+</script>
 
           </div>
 
